@@ -24,9 +24,9 @@ import java.util.Map;
 /**
  * Created by Richard on 2016-08-31.
  */
-public class ssds extends BaseRichSpout{
+public class URLSpout extends BaseRichSpout{
     SpoutOutputCollector _collector;
-    private static final Logger LOG = LoggerFactory.getLogger(ssds.class);
+    private static final Logger LOG = LoggerFactory.getLogger(URLSpout.class);
     public static ReadConfig config = new ReadConfig("crawl.properties",true);
     private String startURL = config.getValue("start_url");
     private static ParseUtil parse = new ParseUtil();
@@ -71,7 +71,7 @@ public class ssds extends BaseRichSpout{
     }
 
     public static void main(String[] args) {
-        ssds s = new ssds();
+        URLSpout s = new URLSpout();
         s.test();
     }
 }
