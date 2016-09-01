@@ -53,12 +53,16 @@ public class URLSpout extends BaseRichSpout{
     }
 
     private List<String > parser(String page) {
-        Element body = JsoupUtil.getBody(page);
-        Elements table =body.select("table.faq-table").select("tr").select("td");
         List<String> urlSet = new ArrayList<String>();
-        for(int i=0;i<table.size();i++){
-            String url = "http://dxy.com"+table.get(i).select("a").attr("href");
-            urlSet.add(url);
+        try {
+            Element body = JsoupUtil.getBody(page);
+            Elements table = body.select("table.faq-table").select("tr").select("td");
+            for (int i = 0; i < table.size(); i++) {
+                String url = "http://dxy.com" + table.get(i).select("a").attr("href");
+                urlSet.add(url);
+            }
+        }catch (Exception e){
+
         }
         return urlSet;
     }

@@ -25,27 +25,36 @@ public class FetcherBolt extends BaseBasicBolt {
         String url = tuple.getString(0);
         String page = crawler(url);
         Element data = parser(page);
-        basicOutputCollector.emit(new Values(data));
+        basicOutputCollector.emit(new Values(data.toString(),url));
     }
 
 
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
-        outputFieldsDeclarer.declare(new Fields("data"));
+        outputFieldsDeclarer.declare(new Fields("data","url"));
     }
 
     private String crawler(String url) {
-        GetPageUtil get = new GetPageUtil();
-        String page = get.getAPage(url);
+        String page ="";
+        try {
+            GetPageUtil get = new GetPageUtil();
+            page = get.getAPage(url);
+        }catch (Exception e ){
+        }
         return page;
     }
 
     private Element parser(String page) {
-        Element body = JsoupUtil.getBody(page);
-        Element data = body.select("div.editor-style").first();
-        //System.out.println(data);
-        return null;
+        Element data = null;
+        try {
+            Element body = JsoupUtil.getBody(page);
+            data = body.select("div.editor-style").first();
+            //System.out.println(data);
+        }catch (Exception e){
+
+        }
+        return data;
     }
 
     public static void main(String[] args) {
